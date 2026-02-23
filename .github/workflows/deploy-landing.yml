@@ -3,7 +3,6 @@ name: Deploy Landing Page
 on:
   push:
     branches: [main]
-    paths: [upsell-landing/**]
 
 permissions:
   contents: read
@@ -25,6 +24,6 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: upsell-landing
+          path: src
       - id: deployment
         uses: actions/deploy-pages@v4
