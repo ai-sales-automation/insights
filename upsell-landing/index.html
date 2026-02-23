@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRM Upsell Scanner — AI-Powered Sales Intelligence | EiraVox</title>
+  <meta name="description" content="Stop guessing which leads are ready to buy. Our AI scans your CRM leads daily — LinkedIn, job postings, company news — and delivers actionable buying signals to your inbox.">
+  <link rel="icon" href="logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: #1a1a2e; background: #fff; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .btn-primary { display: inline-block; background: #fff; color: #0a0e27; font-size: 16px; font-weight: 700; padding: 16px 40px; border-radius: 50px; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.25); }
+    .btn-blue { display: inline-block; background: #0a66c2; color: #fff; font-size: 16px; font-weight: 700; padding: 16px 40px; border-radius: 50px; transition: background 0.2s, transform 0.2s; }
+    .btn-blue:hover { background: #004182; transform: translateY(-1px); }
+
+    /* ── Nav ── */
+    .nav { padding: 14px 24px; background: rgba(10,14,39,0.97); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; }
+    .nav-logo { width: 30px; height: 30px; border-radius: 8px; }
+    .nav-name { color: #fff; font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
+    .nav-cta { background: #fff; color: #0a0e27; font-size: 13px; font-weight: 700; padding: 10px 24px; border-radius: 50px; transition: transform 0.2s; }
+    .nav-cta:hover { transform: translateY(-1px); }
+
+    /* ── Hero ── */
+    .hero { background: linear-gradient(135deg, #0a0e27 0%, #0d1f4e 40%, #0a66c2 100%); padding: 100px 24px 80px; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -40%; left: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(88,166,255,0.12) 0%, transparent 70%); border-radius: 50%; }
+    .hero::after { content: ''; position: absolute; bottom: -30%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(10,102,194,0.15) 0%, transparent 70%); border-radius: 50%; }
+    .hero-inner { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero h1 { color: #fff; font-size: 54px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.08; margin-bottom: 24px; }
+    .hero h1 em { font-style: normal; background: linear-gradient(90deg, #58a6ff, #79c0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { color: rgba(255,255,255,0.6); font-size: 19px; line-height: 1.65; max-width: 600px; margin: 0 auto 40px; }
+    .hero .btn-primary { padding: 18px 48px; font-size: 17px; }
+    .hero-trust { margin-top: 48px; color: rgba(255,255,255,0.35); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
+
+    /* ── Section ── */
+    section { padding: 96px 24px; }
+    .container { max-width: 1060px; margin: 0 auto; }
+    .label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #0a66c2; margin-bottom: 14px; }
+    .title { font-size: 42px; font-weight: 800; letter-spacing: -1px; line-height: 1.12; margin-bottom: 18px; }
+    .subtitle { font-size: 18px; color: #6b7280; line-height: 1.65; max-width: 620px; }
+    .center { text-align: center; }
+    .center .subtitle { margin: 0 auto; }
+
+    /* ── 3 Benefit Blocks (Gong-style) ── */
+    .benefits { background: #fff; }
+    .benefit-block { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-bottom: 80px; }
+    .benefit-block:nth-child(even) { direction: rtl; }
+    .benefit-block:nth-child(even) > * { direction: ltr; }
+    .benefit-block:last-child { margin-bottom: 0; }
+    .benefit-text .label { margin-bottom: 10px; }
+    .benefit-text h3 { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 16px; }
+    .benefit-text p { font-size: 16px; color: #6b7280; line-height: 1.7; }
+    .benefit-visual { background: #f8f9fb; border-radius: 16px; padding: 40px; display: flex; align-items: center; justify-content: center; min-height: 280px; border: 1px solid #e5e7eb; }
+    .benefit-visual .stat-big { font-size: 72px; font-weight: 900; color: #0a66c2; letter-spacing: -3px; }
+    .benefit-visual .stat-label { font-size: 15px; color: #6b7280; margin-top: 4px; }
+    .benefit-visual-inner { text-align: center; }
+
+    /* ── Stats Bar ── */
+    .stats-bar { background: linear-gradient(135deg, #0a0e27 0%, #0d1f4e 50%, #0a66c2 100%); padding: 64px 24px; }
+    .stats-grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
+    .stat-item .stat-val { font-size: 44px; font-weight: 900; color: #fff; letter-spacing: -2px; }
+    .stat-item .stat-desc { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; line-height: 1.4; }
+
+    /* ── Report Preview ── */
+    .preview { background: #f8f9fb; }
+    .preview-img { margin-top: 48px; max-width: 620px; width: 100%; border-radius: 14px; box-shadow: 0 8px 40px rgba(0,0,0,0.1); }
+
+    /* ── Testimonial ── */
+    .testimonial { background: #fff; }
+    .quote-card { max-width: 700px; margin: 0 auto; text-align: center; }
+    .quote-card blockquote { font-size: 22px; font-weight: 500; line-height: 1.6; color: #1a1a2e; font-style: italic; margin-bottom: 24px; }
+    .quote-card blockquote::before { content: '\201C'; font-size: 48px; color: #0a66c2; display: block; margin-bottom: 8px; line-height: 1; }
+    .quote-author { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+    .quote-role { font-size: 13px; color: #6b7280; margin-top: 2px; }
+
+    /* ── Pricing ── */
+    .pricing { background: #f8f9fb; }
+    .pricing-card { max-width: 500px; margin: 48px auto 0; border-radius: 16px; border: 2px solid #0a66c2; overflow: hidden; background: #fff; }
+    .pricing-top { background: linear-gradient(135deg, #0a0e27 0%, #0d1f4e 50%, #0a66c2 100%); padding: 36px 32px; text-align: center; }
+    .pricing-top .price { font-size: 56px; font-weight: 900; color: #fff; letter-spacing: -2px; }
+    .pricing-top .price-sub { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+    .pricing-body { padding: 36px 32px; }
+    .pricing-body ul { list-style: none; }
+    .pricing-body li { padding: 11px 0; font-size: 15px; color: #374151; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; gap: 12px; }
+    .pricing-body li:last-child { border: none; }
+    .pricing-body li::before { content: '\2713'; color: #16a34a; font-weight: 700; font-size: 16px; flex-shrink: 0; }
+    .pricing-body .btn-blue { display: block; text-align: center; width: 100%; margin-top: 24px; padding: 18px; border-radius: 10px; }
+    .pricing-note { text-align: center; margin-top: 20px; font-size: 14px; color: #9ca3af; }
+    .pricing-note strong { color: #374151; }
+
+    /* ── Final CTA ── */
+    .final-cta { background: linear-gradient(135deg, #0a0e27 0%, #0d1f4e 40%, #0a66c2 100%); padding: 100px 24px; text-align: center; }
+    .final-cta h2 { color: #fff; font-size: 44px; font-weight: 900; margin-bottom: 18px; letter-spacing: -1px; line-height: 1.1; }
+    .final-cta p { color: rgba(255,255,255,0.5); font-size: 18px; margin-bottom: 40px; max-width: 540px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+
+    /* ── Footer ── */
+    footer { padding: 36px 24px; text-align: center; border-top: 1px solid #ebedf0; }
+    footer p { font-size: 13px; color: #9ca3af; }
+    footer a { color: #0a66c2; }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 34px; }
+      .benefit-block { grid-template-columns: 1fr; gap: 32px; }
+      .benefit-block:nth-child(even) { direction: ltr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+      .title { font-size: 30px; }
+      .final-cta h2 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <img src="logo.png" alt="EiraVox" class="nav-logo">
+        <span class="nav-name">EiraVox</span>
+      </div>
+      <a href="https://calendly.com/eiravox-contact/30min" class="nav-cta">Book a Demo</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Win more deals with <em>AI-powered sales intelligence</em></h1>
+      <p class="hero-sub">We scan your CRM leads daily across LinkedIn, job boards, and company news. Your sales team gets actionable buying signals delivered every morning.</p>
+      <a href="https://calendly.com/eiravox-contact/30min" class="btn-primary">Book Your Demo</a>
+      <div class="hero-trust">Trusted by sales teams running Zoho, HubSpot &amp; Salesforce</div>
+    </div>
+  </section>
+
+  <!-- 3 Benefit Blocks (Gong pattern) -->
+  <section class="benefits">
+    <div class="container">
+
+      <div class="benefit-block">
+        <div class="benefit-text">
+          <div class="label">Intelligence guidance</div>
+          <h3>Know which leads are ready to buy</h3>
+          <p>Your leads are hiring, launching products, and posting about challenges right now. We surface these buying signals daily so your team reaches out at the perfect moment — not a random Tuesday.</p>
+        </div>
+        <div class="benefit-visual">
+          <div class="benefit-visual-inner">
+            <div class="stat-big">6x</div>
+            <div class="stat-label">faster lead research vs. manual</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="benefit-block">
+        <div class="benefit-text">
+          <div class="label">Powerful automation</div>
+          <h3>Stop wasting time on cold leads</h3>
+          <p>Every morning your team gets a scored list of hot and warm leads with specific talking points. No more hours of LinkedIn research. No more shooting in the dark. Just open the email and start closing.</p>
+        </div>
+        <div class="benefit-visual">
+          <div class="benefit-visual-inner">
+            <div class="stat-big">100+</div>
+            <div class="stat-label">leads scanned daily per CRM</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="benefit-block">
+        <div class="benefit-text">
+          <div class="label">Verified signals</div>
+          <h3>Every insight has a source link</h3>
+          <p>We don't make things up. Every buying signal in your report includes a clickable link to the original LinkedIn post, job listing, or news article. Your team can verify in one click before reaching out.</p>
+        </div>
+        <div class="benefit-visual">
+          <div class="benefit-visual-inner">
+            <div class="stat-big">0</div>
+            <div class="stat-label">false positives. Only real signals.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align:center; padding: 0 24px 48px;">
+      <a href="https://calendly.com/eiravox-contact/30min" class="btn-blue">Book Your Demo</a>
+    </div>
+  </section>
+
+  <!-- Stats Bar
+  <section class="stats-bar" style="padding:64px 24px;">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-val">6</div>
+        <div class="stat-desc">Intelligence sources scanned per lead</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">24h</div>
+        <div class="stat-desc">Signal detection turnaround</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">$0.12</div>
+        <div class="stat-desc">Average cost per 100-lead scan</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">1</div>
+        <div class="stat-desc">Email. Every morning. Actionable.</div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- Report Preview -->
+  <section class="preview center">
+    <div class="container">
+      <div class="label">See it in action</div>
+      <h2 class="title">This is what your team gets every morning</h2>
+      <p class="subtitle">Scored leads. Verified signals. Clickable sources. Ready to act on immediately.</p>
+      <img src="report-preview.png" alt="Sample Upsell Intelligence Report" class="preview-img">
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <section class="testimonial">
+    <div class="container">
+      <div class="quote-card">
+        <blockquote>We used to spend 3 hours a day researching leads on LinkedIn. Now we open one email and know exactly who to call and why. It paid for itself in the first week.</blockquote>
+        <div class="quote-author">Sales Director</div>
+        <div class="quote-role">B2B Technology Company, 200+ CRM leads</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing">
+    <div class="container center">
+      <div class="label">Pricing</div>
+      <h2 class="title">One setup. Daily intelligence. You own it.</h2>
+      <div class="pricing-card">
+        <div class="pricing-top">
+          <div class="price">$999</div>
+          <div class="price-sub">One-time setup &amp; configuration</div>
+        </div>
+        <div class="pricing-body">
+          <ul>
+            <li>CRM integration (Zoho, HubSpot, or Salesforce)</li>
+            <li>Custom AI prompt tuned to your sales motion</li>
+            <li>6 intelligence sources per lead</li>
+            <li>Branded email report template</li>
+            <li>Daily automated scans and delivery</li>
+            <li>Full deployment on your infrastructure</li>
+          </ul>
+          <a href="https://calendly.com/eiravox-contact/30min" class="btn-blue">Book a Free Demo Call</a>
+        </div>
+      </div>
+      <div class="pricing-note">You own the system. <strong>No monthly fees. No lock-in.</strong></div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final-cta" id="book">
+    <h2>See what your CRM<br>data is really worth</h2>
+    <p>Book a 30-minute demo. We'll run a live scan on your actual leads and show you the buying signals hiding in plain sight.</p>
+    <a href="https://calendly.com/eiravox-contact/30min" class="btn-primary" style="padding:18px 52px;font-size:17px;">Book Your Demo Now</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 <a href="https://eiravox.com">EiraVox</a>. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
