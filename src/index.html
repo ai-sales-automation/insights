@@ -3,268 +3,396 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRM Upsell Scanner — AI-Powered Sales Intelligence | EiraVox</title>
-  <meta name="description" content="Stop guessing which leads are ready to buy. Our AI scans your CRM leads daily — LinkedIn, job postings, company news — and delivers actionable buying signals to your inbox.">
+  <title>CRM Upsell Scanner - AI-Powered Sales Intelligence | EiraVox</title>
+  <meta name="description" content="Stop guessing which leads are ready to buy. Our AI scans your CRM leads daily - LinkedIn, job postings, company news - and delivers actionable buying signals to your inbox.">
   <link rel="icon" href="logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: #1a1a2e; background: #fff; -webkit-font-smoothing: antialiased; }
+    :root {
+      --bg: #050510; --surface: #0c0c1d; --surface2: #12122a;
+      --border: rgba(255,255,255,0.06); --border-hover: rgba(255,255,255,0.12);
+      --text: #e2e8f0; --text-muted: #94a3b8; --text-dim: #64748b;
+      --accent: #6366f1; --accent-light: #818cf8; --accent-glow: rgba(99,102,241,0.15);
+      --cyan: #22d3ee; --emerald: #34d399;
+    }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     a { color: inherit; text-decoration: none; }
-    .btn-primary { display: inline-block; background: #fff; color: #0a0e27; font-size: 16px; font-weight: 700; padding: 16px 40px; border-radius: 50px; transition: transform 0.2s, box-shadow 0.2s; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.25); }
-    .btn-blue { display: inline-block; background: #0a66c2; color: #fff; font-size: 16px; font-weight: 700; padding: 16px 40px; border-radius: 50px; transition: background 0.2s, transform 0.2s; }
-    .btn-blue:hover { background: #004182; transform: translateY(-1px); }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #fff; font-size: 15px; font-weight: 600;
+      padding: 14px 32px; border-radius: 12px; transition: all 0.3s;
+      box-shadow: 0 0 24px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 0 40px rgba(99,102,241,0.3), inset 0 1px 0 rgba(255,255,255,0.15); }
+    .btn-primary svg { width: 16px; height: 16px; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--text-muted); font-size: 15px; font-weight: 500;
+      padding: 14px 32px; border-radius: 12px; border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .btn-ghost:hover { border-color: var(--border-hover); color: #fff; background: rgba(255,255,255,0.03); }
 
     /* ── Nav ── */
-    .nav { padding: 14px 24px; background: rgba(10,14,39,0.97); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; }
+    .nav-blur { background: rgba(5,5,16,0.7); backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
     .nav-brand { display: flex; align-items: center; gap: 10px; }
-    .nav-logo { width: 30px; height: 30px; border-radius: 8px; }
+    .nav-logo { width: 28px; height: 28px; border-radius: 8px; }
     .nav-name { color: #fff; font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
-    .nav-cta { background: #fff; color: #0a0e27; font-size: 13px; font-weight: 700; padding: 10px 24px; border-radius: 50px; transition: transform 0.2s; }
-    .nav-cta:hover { transform: translateY(-1px); }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a { font-size: 14px; color: var(--text-muted); font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta { background: var(--accent); color: #fff; font-size: 13px; font-weight: 600; padding: 9px 20px; border-radius: 10px; transition: all 0.2s; }
+    .nav-cta:hover { background: var(--accent-light); }
 
     /* ── Hero ── */
-    .hero { background: linear-gradient(135deg, #0a0e27 0%, #0d1f4e 40%, #0a66c2 100%); padding: 100px 24px 80px; text-align: center; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; top: -40%; left: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(88,166,255,0.12) 0%, transparent 70%); border-radius: 50%; }
-    .hero::after { content: ''; position: absolute; bottom: -30%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(10,102,194,0.15) 0%, transparent 70%); border-radius: 50%; }
-    .hero-inner { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
-    .hero h1 { color: #fff; font-size: 54px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.08; margin-bottom: 24px; }
-    .hero h1 em { font-style: normal; background: linear-gradient(90deg, #58a6ff, #79c0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero-sub { color: rgba(255,255,255,0.6); font-size: 19px; line-height: 1.65; max-width: 600px; margin: 0 auto 40px; }
-    .hero .btn-primary { padding: 18px 48px; font-size: 17px; }
-    .hero-trust { margin-top: 48px; color: rgba(255,255,255,0.35); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
+    .hero { padding: 160px 24px 120px; text-align: center; position: relative; overflow: hidden; }
+    .hero-grid {
+      position: absolute; inset: 0; opacity: 0.03;
+      background-image: linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-glow-1 { position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 800px; height: 600px; background: radial-gradient(ellipse, rgba(99,102,241,0.15) 0%, transparent 70%); pointer-events: none; }
+    .hero-glow-2 { position: absolute; top: 100px; right: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%); pointer-events: none; }
+    .hero-inner { max-width: 820px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2);
+      color: var(--accent-light); font-size: 13px; font-weight: 600;
+      padding: 8px 18px; border-radius: 100px; margin-bottom: 32px;
+    }
+    .hero-badge-dot { width: 6px; height: 6px; background: var(--emerald); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero h1 { color: #fff; font-size: 64px; font-weight: 800; letter-spacing: -2.5px; line-height: 1.05; margin-bottom: 24px; }
+    .hero h1 .gradient-text { background: linear-gradient(135deg, var(--accent-light), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { color: var(--text-muted); font-size: 18px; line-height: 1.7; max-width: 560px; margin: 0 auto 44px; }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .hero-social-proof { margin-top: 64px; display: flex; align-items: center; justify-content: center; gap: 24px; }
+    .hero-avatars { display: flex; }
+    .hero-avatar { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--bg); margin-left: -10px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--accent-light); }
+    .hero-avatar:first-child { margin-left: 0; }
+    .hero-proof-text { font-size: 14px; color: var(--text-dim); }
+    .hero-proof-text strong { color: var(--text); }
 
-    /* ── Section ── */
-    section { padding: 96px 24px; }
-    .container { max-width: 1060px; margin: 0 auto; }
-    .label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #0a66c2; margin-bottom: 14px; }
-    .title { font-size: 42px; font-weight: 800; letter-spacing: -1px; line-height: 1.12; margin-bottom: 18px; }
-    .subtitle { font-size: 18px; color: #6b7280; line-height: 1.65; max-width: 620px; }
-    .center { text-align: center; }
-    .center .subtitle { margin: 0 auto; }
+    /* ── Logos ── */
+    .logos { padding: 48px 24px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .logos-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+    .logos-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); white-space: nowrap; }
+    .logo-item { font-size: 18px; font-weight: 700; color: rgba(255,255,255,0.15); letter-spacing: -0.5px; }
 
-    /* ── 3 Benefit Blocks (Gong-style) ── */
-    .benefits { background: #fff; }
-    .benefit-block { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-bottom: 80px; }
-    .benefit-block:nth-child(even) { direction: rtl; }
-    .benefit-block:nth-child(even) > * { direction: ltr; }
-    .benefit-block:last-child { margin-bottom: 0; }
-    .benefit-text .label { margin-bottom: 10px; }
-    .benefit-text h3 { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 16px; }
-    .benefit-text p { font-size: 16px; color: #6b7280; line-height: 1.7; }
-    .benefit-visual { background: #f8f9fb; border-radius: 16px; padding: 40px; display: flex; align-items: center; justify-content: center; min-height: 280px; border: 1px solid #e5e7eb; }
-    .benefit-visual .stat-big { font-size: 72px; font-weight: 900; color: #0a66c2; letter-spacing: -3px; }
-    .benefit-visual .stat-label { font-size: 15px; color: #6b7280; margin-top: 4px; }
-    .benefit-visual-inner { text-align: center; }
+    /* ── Features Grid ── */
+    .features { padding: 120px 24px; }
+    .features-header { text-align: center; max-width: 600px; margin: 0 auto 64px; }
+    .section-label { display: inline-block; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-light); margin-bottom: 16px; }
+    .section-title { font-size: 44px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; color: #fff; margin-bottom: 16px; }
+    .section-subtitle { font-size: 17px; color: var(--text-muted); line-height: 1.7; }
+    .features-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .feature-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+      padding: 36px 28px; transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .feature-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .feature-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(99,102,241,0.4), transparent); opacity: 0; transition: opacity 0.3s;
+    }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      background: var(--accent-glow); margin-bottom: 20px;
+    }
+    .feature-icon svg { width: 24px; height: 24px; stroke: var(--accent-light); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .feature-card h3 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 10px; letter-spacing: -0.3px; }
+    .feature-card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
 
-    /* ── Stats Bar ── */
-    .stats-bar { background: linear-gradient(135deg, #0a0e27 0%, #0d1f4e 50%, #0a66c2 100%); padding: 64px 24px; }
-    .stats-grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
-    .stat-item .stat-val { font-size: 44px; font-weight: 900; color: #fff; letter-spacing: -2px; }
-    .stat-item .stat-desc { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; line-height: 1.4; }
+    /* ── Bento Section ── */
+    .bento { padding: 120px 24px; }
+    .bento-grid { max-width: 1100px; margin: 64px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .bento-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+      padding: 48px 40px; position: relative; overflow: hidden;
+    }
+    .bento-card.wide { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .bento-card .section-label { font-size: 12px; }
+    .bento-card h3 { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -0.8px; line-height: 1.2; margin-bottom: 14px; }
+    .bento-card p { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+    .bento-stat { font-size: 64px; font-weight: 900; letter-spacing: -3px; margin-bottom: 8px; }
+    .bento-stat.indigo { color: var(--accent-light); }
+    .bento-stat.cyan { color: var(--cyan); }
+    .bento-stat.emerald { color: var(--emerald); }
+    .bento-stat-label { font-size: 14px; color: var(--text-dim); }
+    .bento-card-glow {
+      position: absolute; width: 300px; height: 300px; border-radius: 50%; opacity: 0.06; pointer-events: none;
+    }
 
     /* ── Report Preview ── */
-    .preview { background: #f8f9fb; }
-    .preview-img { margin-top: 48px; max-width: 620px; width: 100%; border-radius: 14px; box-shadow: 0 8px 40px rgba(0,0,0,0.1); }
+    .preview { padding: 120px 24px; text-align: center; }
+    .preview-window {
+      max-width: 680px; margin: 48px auto 0; border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border); background: var(--surface);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .preview-topbar { background: var(--surface2); padding: 12px 16px; display: flex; gap: 6px; border-bottom: 1px solid var(--border); }
+    .preview-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.08); }
+    .preview-img { width: 100%; display: block; }
 
     /* ── Testimonial ── */
-    .testimonial { background: #fff; }
-    .quote-card { max-width: 700px; margin: 0 auto; text-align: center; }
-    .quote-card blockquote { font-size: 22px; font-weight: 500; line-height: 1.6; color: #1a1a2e; font-style: italic; margin-bottom: 24px; }
-    .quote-card blockquote::before { content: '\201C'; font-size: 48px; color: #0a66c2; display: block; margin-bottom: 8px; line-height: 1; }
-    .quote-author { font-size: 15px; font-weight: 700; color: #1a1a2e; }
-    .quote-role { font-size: 13px; color: #6b7280; margin-top: 2px; }
+    .testimonial { padding: 120px 24px; }
+    .testimonial-card {
+      max-width: 700px; margin: 0 auto; text-align: center; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 20px; padding: 56px 48px;
+    }
+    .testimonial-card .stars { font-size: 20px; margin-bottom: 24px; color: #fbbf24; }
+    .testimonial-card blockquote { font-size: 20px; font-weight: 500; line-height: 1.65; color: var(--text); font-style: italic; margin-bottom: 32px; }
+    .testimonial-card .author { font-size: 15px; font-weight: 700; color: #fff; }
+    .testimonial-card .role { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
 
     /* ── Pricing ── */
-    .pricing { background: #f8f9fb; }
-    .pricing-card { max-width: 500px; margin: 48px auto 0; border-radius: 16px; border: 2px solid #0a66c2; overflow: hidden; background: #fff; }
-    .pricing-top { background: linear-gradient(135deg, #0a0e27 0%, #0d1f4e 50%, #0a66c2 100%); padding: 36px 32px; text-align: center; }
-    .pricing-top .price { font-size: 56px; font-weight: 900; color: #fff; letter-spacing: -2px; }
-    .pricing-top .price-sub { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 4px; }
-    .pricing-body { padding: 36px 32px; }
+    .pricing { padding: 120px 24px; }
+    .pricing-card {
+      max-width: 480px; margin: 56px auto 0; border-radius: 20px; overflow: hidden;
+      background: var(--surface); border: 1px solid var(--border);
+      position: relative;
+    }
+    .pricing-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--cyan));
+    }
+    .pricing-header { padding: 44px 40px 32px; text-align: center; border-bottom: 1px solid var(--border); }
+    .pricing-header .price { font-size: 60px; font-weight: 900; color: #fff; letter-spacing: -3px; }
+    .pricing-header .price-sub { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
+    .pricing-body { padding: 32px 40px 40px; }
     .pricing-body ul { list-style: none; }
-    .pricing-body li { padding: 11px 0; font-size: 15px; color: #374151; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; gap: 12px; }
+    .pricing-body li {
+      padding: 12px 0; font-size: 14px; color: var(--text-muted); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px;
+    }
     .pricing-body li:last-child { border: none; }
-    .pricing-body li::before { content: '\2713'; color: #16a34a; font-weight: 700; font-size: 16px; flex-shrink: 0; }
-    .pricing-body .btn-blue { display: block; text-align: center; width: 100%; margin-top: 24px; padding: 18px; border-radius: 10px; }
-    .pricing-note { text-align: center; margin-top: 20px; font-size: 14px; color: #9ca3af; }
-    .pricing-note strong { color: #374151; }
+    .pricing-body li::before { content: '✓'; color: var(--emerald); font-weight: 700; font-size: 15px; flex-shrink: 0; }
+    .pricing-body .btn-primary { display: block; text-align: center; width: 100%; margin-top: 28px; justify-content: center; padding: 16px; }
+    .pricing-note { text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-dim); }
+    .pricing-note strong { color: var(--text); }
 
     /* ── Final CTA ── */
-    .final-cta { background: linear-gradient(135deg, #0a0e27 0%, #0d1f4e 40%, #0a66c2 100%); padding: 100px 24px; text-align: center; }
-    .final-cta h2 { color: #fff; font-size: 44px; font-weight: 900; margin-bottom: 18px; letter-spacing: -1px; line-height: 1.1; }
-    .final-cta p { color: rgba(255,255,255,0.5); font-size: 18px; margin-bottom: 40px; max-width: 540px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+    .final-cta { padding: 140px 24px; text-align: center; position: relative; overflow: hidden; }
+    .final-cta-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 700px; height: 400px; background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%); pointer-events: none; }
+    .final-cta h2 { font-size: 50px; font-weight: 900; letter-spacing: -2px; line-height: 1.08; color: #fff; margin-bottom: 20px; position: relative; z-index: 1; }
+    .final-cta p { font-size: 17px; color: var(--text-muted); margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.7; position: relative; z-index: 1; }
+    .final-cta .btn-primary { position: relative; z-index: 1; padding: 18px 44px; font-size: 16px; }
 
     /* ── Footer ── */
-    footer { padding: 36px 24px; text-align: center; border-top: 1px solid #ebedf0; }
-    footer p { font-size: 13px; color: #9ca3af; }
-    footer a { color: #0a66c2; }
+    footer { padding: 40px 24px; text-align: center; border-top: 1px solid var(--border); }
+    footer p { font-size: 13px; color: var(--text-dim); }
+    footer a { color: var(--accent-light); transition: color 0.2s; }
+    footer a:hover { color: #fff; }
 
     @media (max-width: 768px) {
-      .hero h1 { font-size: 34px; }
-      .benefit-block { grid-template-columns: 1fr; gap: 32px; }
-      .benefit-block:nth-child(even) { direction: ltr; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
-      .title { font-size: 30px; }
-      .final-cta h2 { font-size: 30px; }
+      .hero { padding: 120px 24px 80px; }
+      .hero h1 { font-size: 38px; letter-spacing: -1.5px; }
+      .hero-sub { font-size: 16px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .bento-grid { grid-template-columns: 1fr; }
+      .bento-card.wide { grid-column: span 1; grid-template-columns: 1fr; }
+      .section-title { font-size: 32px; }
+      .final-cta h2 { font-size: 32px; }
+      .nav-links { display: none; }
+      .hero-social-proof { flex-direction: column; gap: 12px; }
+      .logos-inner { gap: 24px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Sticky Nav -->
-  <nav class="nav">
+  <nav class="nav nav-blur">
     <div class="nav-inner">
-      <div class="nav-brand">
+      <a href="https://eiravox.com" class="nav-brand">
         <img src="logo.png" alt="EiraVox" class="nav-logo">
         <span class="nav-name">EiraVox</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how">How It Works</a>
+        <a href="#pricing">Pricing</a>
       </div>
       <a href="https://calendly.com/eiravox-contact/30min" class="nav-cta">Book a Demo</a>
     </div>
   </nav>
 
-  <!-- Hero -->
   <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
     <div class="hero-inner">
-      <h1>Win more deals with <em>AI-powered sales intelligence</em></h1>
-      <p class="hero-sub">We scan your CRM leads daily across LinkedIn, job boards, and company news. Your sales team gets actionable buying signals delivered every morning.</p>
-      <a href="https://calendly.com/eiravox-contact/30min" class="btn-primary">Book Your Demo</a>
-      <div class="hero-trust">Trusted by sales teams running Zoho, HubSpot &amp; Salesforce</div>
+      <div class="hero-badge"><span class="hero-badge-dot"></span> AI-Powered Sales Intelligence</div>
+      <h1>Turn your CRM into a <span class="gradient-text">revenue engine</span></h1>
+      <p class="hero-sub">We scan every lead in your CRM daily - LinkedIn posts, job openings, company news - and deliver scored buying signals to your inbox every morning.</p>
+      <div class="hero-actions">
+        <a href="https://calendly.com/eiravox-contact/30min" class="btn-primary">
+          Book Your Demo
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a href="#how" class="btn-ghost">See How It Works</a>
+      </div>
+      <div class="hero-social-proof">
+        <div class="hero-avatars">
+          <div class="hero-avatar">JK</div>
+          <div class="hero-avatar">SM</div>
+          <div class="hero-avatar">AL</div>
+          <div class="hero-avatar">RD</div>
+        </div>
+        <div class="hero-proof-text"><strong>Sales teams</strong> using Zoho, HubSpot &amp; Salesforce</div>
+      </div>
     </div>
   </section>
 
-  <!-- 3 Benefit Blocks (Gong pattern) -->
-  <section class="benefits">
-    <div class="container">
-
-      <div class="benefit-block">
-        <div class="benefit-text">
-          <div class="label">Intelligence guidance</div>
-          <h3>Know which leads are ready to buy</h3>
-          <p>Your leads are hiring, launching products, and posting about challenges right now. We surface these buying signals daily so your team reaches out at the perfect moment — not a random Tuesday.</p>
-        </div>
-        <div class="benefit-visual">
-          <div class="benefit-visual-inner">
-            <div class="stat-big">6x</div>
-            <div class="stat-label">faster lead research vs. manual</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="benefit-block">
-        <div class="benefit-text">
-          <div class="label">Powerful automation</div>
-          <h3>Stop wasting time on cold leads</h3>
-          <p>Every morning your team gets a scored list of hot and warm leads with specific talking points. No more hours of LinkedIn research. No more shooting in the dark. Just open the email and start closing.</p>
-        </div>
-        <div class="benefit-visual">
-          <div class="benefit-visual-inner">
-            <div class="stat-big">100+</div>
-            <div class="stat-label">leads scanned daily per CRM</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="benefit-block">
-        <div class="benefit-text">
-          <div class="label">Verified signals</div>
-          <h3>Every insight has a source link</h3>
-          <p>We don't make things up. Every buying signal in your report includes a clickable link to the original LinkedIn post, job listing, or news article. Your team can verify in one click before reaching out.</p>
-        </div>
-        <div class="benefit-visual">
-          <div class="benefit-visual-inner">
-            <div class="stat-big">0</div>
-            <div class="stat-label">false positives. Only real signals.</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div style="text-align:center; padding: 0 24px 48px;">
-      <a href="https://calendly.com/eiravox-contact/30min" class="btn-blue">Book Your Demo</a>
+  <section class="logos">
+    <div class="logos-inner">
+      <span class="logos-label">Integrates with</span>
+      <span class="logo-item">Zoho CRM</span>
+      <span class="logo-item">HubSpot</span>
+      <span class="logo-item">Salesforce</span>
+      <span class="logo-item">LinkedIn</span>
+      <span class="logo-item">OpenAI</span>
     </div>
   </section>
 
-  <!-- Stats Bar
-  <section class="stats-bar" style="padding:64px 24px;">
-    <div class="stats-grid">
-      <div class="stat-item">
-        <div class="stat-val">6</div>
-        <div class="stat-desc">Intelligence sources scanned per lead</div>
+  <section class="features" id="features">
+    <div class="features-header">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">Everything you need to close smarter</h2>
+      <p class="section-subtitle">Six intelligence sources scanned per lead. Every insight verified with a source link. Zero guesswork.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+        <h3>LinkedIn Activity Scan</h3>
+        <p>We scrape each lead's latest posts, shares, and comments to detect interest in AI, hiring, product launches, and more.</p>
       </div>
-      <div class="stat-item">
-        <div class="stat-val">24h</div>
-        <div class="stat-desc">Signal detection turnaround</div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/></svg></div>
+        <h3>Job Listing Monitor</h3>
+        <p>If your lead's company is hiring engineers, PMs, or sales - you'll know. Open roles reveal budget and growth direction.</p>
       </div>
-      <div class="stat-item">
-        <div class="stat-val">$0.12</div>
-        <div class="stat-desc">Average cost per 100-lead scan</div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg></div>
+        <h3>Company News Tracker</h3>
+        <p>Google news and website changes tracked daily. Funding rounds, product launches, and partnerships surfaced automatically.</p>
       </div>
-      <div class="stat-item">
-        <div class="stat-val">1</div>
-        <div class="stat-desc">Email. Every morning. Actionable.</div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.57-3.25 3.92L12 22l-.75-12.08A4.001 4.001 0 0 1 12 2z"/><path d="M8.5 8.5 4 12l4.5 3.5"/><path d="M15.5 8.5 20 12l-4.5 3.5"/></svg></div>
+        <h3>AI Signal Scoring</h3>
+        <p>GPT-4o analyzes all data points and scores each lead as Hot, Warm, or Cold - with specific reasoning and suggested talking points.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></div>
+        <h3>Traffic Analysis</h3>
+        <p>Website traffic growth signals expanding sales and a need for tech infrastructure. We surface these growth patterns for you.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+        <h3>Daily Email Reports</h3>
+        <p>Branded HTML reports delivered every morning. Scored leads, inline source links, and ready-to-use outreach talking points.</p>
       </div>
     </div>
-  </section> -->
+  </section>
 
-  <!-- Report Preview -->
-  <section class="preview center">
-    <div class="container">
-      <div class="label">See it in action</div>
-      <h2 class="title">This is what your team gets every morning</h2>
-      <p class="subtitle">Scored leads. Verified signals. Clickable sources. Ready to act on immediately.</p>
+  <section class="bento" id="how">
+    <div class="features-header">
+      <div class="section-label">How it works</div>
+      <h2 class="section-title">From CRM to closed deal in three steps</h2>
+    </div>
+    <div class="bento-grid">
+      <div class="bento-card">
+        <div class="bento-stat indigo">01</div>
+        <h3>Connect your CRM</h3>
+        <p>We integrate with Zoho, HubSpot, or Salesforce. Your lead list syncs automatically. Setup takes 30 minutes.</p>
+      </div>
+      <div class="bento-card">
+        <div class="bento-stat cyan">02</div>
+        <h3>We scan everything</h3>
+        <p>LinkedIn activity, open jobs, company news, website traffic - 15 data sources per lead, every single day.</p>
+      </div>
+      <div class="bento-card wide">
+        <div>
+          <div class="bento-stat emerald">03</div>
+          <h3>Your team gets actionable intelligence</h3>
+          <p>Every morning, a scored report lands in your inbox. Hot leads with specific talking points and clickable source links. Open it and start closing.</p>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 72px; font-weight: 900; letter-spacing: -3px; color: #fff;">6x</div>
+          <div style="font-size: 14px; color: var(--text-dim); margin-top: 4px;">faster lead research vs. manual</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="preview">
+    <div class="features-header">
+      <div class="section-label">See it in action</div>
+      <h2 class="section-title">This is what your team gets every morning</h2>
+      <p class="section-subtitle">Scored leads. Verified signals. Clickable sources. Ready to act on immediately.</p>
+    </div>
+    <div class="preview-window">
+      <div class="preview-topbar">
+        <div class="preview-dot"></div>
+        <div class="preview-dot"></div>
+        <div class="preview-dot"></div>
+      </div>
       <img src="report-preview.png" alt="Sample Upsell Intelligence Report" class="preview-img">
     </div>
   </section>
 
-  <!-- Testimonial -->
   <section class="testimonial">
-    <div class="container">
-      <div class="quote-card">
-        <blockquote>We used to spend 3 hours a day researching leads on LinkedIn. Now we open one email and know exactly who to call and why. It paid for itself in the first week.</blockquote>
-        <div class="quote-author">Sales Director</div>
-        <div class="quote-role">B2B Technology Company, 200+ CRM leads</div>
-      </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"We used to spend 3 hours a day researching leads on LinkedIn. Now we open one email and know exactly who to call and why. It paid for itself in the first week."</blockquote>
+      <div class="author">Sales Director</div>
+      <div class="role">B2B Technology Company · 200+ CRM leads</div>
     </div>
   </section>
 
-  <!-- Pricing -->
-  <section class="pricing">
-    <div class="container center">
-      <div class="label">Pricing</div>
-      <h2 class="title">One setup. Daily intelligence. You own it.</h2>
-      <div class="pricing-card">
-        <div class="pricing-top">
-          <div class="price">$999</div>
-          <div class="price-sub">One-time setup &amp; configuration</div>
-        </div>
-        <div class="pricing-body">
-          <ul>
-            <li>CRM integration (Zoho, HubSpot, or Salesforce)</li>
-            <li>Custom AI prompt tuned to your sales motion</li>
-            <li>6 intelligence sources per lead</li>
-            <li>Branded email report template</li>
-            <li>Daily automated scans and delivery</li>
-            <li>Full deployment on your infrastructure</li>
-          </ul>
-          <a href="https://calendly.com/eiravox-contact/30min" class="btn-blue">Book a Free Demo Call</a>
-        </div>
-      </div>
-      <div class="pricing-note">You own the system. <strong>No monthly fees. No lock-in.</strong></div>
+  <section class="pricing" id="pricing">
+    <div class="features-header">
+      <div class="section-label">Pricing</div>
+      <h2 class="section-title">One setup. Daily intelligence.</h2>
+      <p class="section-subtitle">You own the system. No monthly fees. No lock-in.</p>
     </div>
+    <div class="pricing-card">
+      <div class="pricing-header">
+        <div class="price">$999</div>
+        <div class="price-sub">One-time setup &amp; configuration</div>
+      </div>
+      <div class="pricing-body">
+        <ul>
+          <li>CRM integration (Zoho, HubSpot, or Salesforce)</li>
+          <li>Custom AI prompt tuned to your sales motion</li>
+          <li>6 intelligence sources per lead</li>
+          <li>Branded email report template</li>
+          <li>Daily automated scans and delivery</li>
+          <li>Full deployment on your infrastructure</li>
+        </ul>
+        <a href="https://calendly.com/eiravox-contact/30min" class="btn-primary">
+          Book a Free Demo Call
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="pricing-note">You own the system. <strong>No monthly fees. No lock-in.</strong></div>
   </section>
 
-  <!-- Final CTA -->
   <section class="final-cta" id="book">
-    <h2>See what your CRM<br>data is really worth</h2>
+    <div class="final-cta-glow"></div>
+    <h2>Your next best deal is<br>already in your CRM</h2>
     <p>Book a 30-minute demo. We'll run a live scan on your actual leads and show you the buying signals hiding in plain sight.</p>
-    <a href="https://calendly.com/eiravox-contact/30min" class="btn-primary" style="padding:18px 52px;font-size:17px;">Book Your Demo Now</a>
+    <a href="https://calendly.com/eiravox-contact/30min" class="btn-primary">
+      Book Your Demo Now
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
   </section>
 
-  <!-- Footer -->
   <footer>
     <p>&copy; 2026 <a href="https://eiravox.com">EiraVox</a>. All rights reserved.</p>
   </footer>
