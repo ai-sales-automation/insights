@@ -1,3 +1,5 @@
+# Deploys src/ to GitHub Pages.
+# URL: https://<owner>.github.io/ai-automation/ (or custom domain set in repo Settings → Pages)
 name: Deploy Landing Page
 
 on:
